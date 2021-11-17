@@ -36,9 +36,9 @@ func generateShortLink(url string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	s := randString(10)
+	s := randString(5)
 
-	return "short://" + s + "-" + uuid[:20], nil
+	return "short://" + s + "-" + uuid[:10], nil
 }
 
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
