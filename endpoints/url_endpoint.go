@@ -1,7 +1,6 @@
 package endpoints
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/emicklei/go-restful/v3"
@@ -18,7 +17,6 @@ type urlResourceImpl struct{}
 var UrlResource urlResource = urlResourceImpl{}
 
 // var urls []models.UrlPayload
-var store = map[string]string{}
 
 func (resource urlResourceImpl) ShortenUrl(req *restful.Request, res *restful.Response) {
 	payload := models.UrlPayload{}
@@ -27,13 +25,17 @@ func (resource urlResourceImpl) ShortenUrl(req *restful.Request, res *restful.Re
 		res.WriteError(http.StatusInternalServerError, err)
 		return
 	}
+	if shortUrl := service.UrlService.FetchShortenUrl(payload.Url); shortUrl != "" {
+		res.ResponseWriter.WriteHeader(http.StatusOK)
+		res.ResponseWriter.Write([]byte(shortUrl))
+		return
+	}
 	shortUrl, err := service.UrlService.ShortenUrl(payload.Url)
 	if err != nil {
 		res.WriteError(http.StatusInternalServerError, err)
 		return
 	}
-	store[payload.Url] = shortUrl
-	fmt.Println(store)
+	service.Store[payload.Url] = shortUrl
 	res.ResponseWriter.WriteHeader(http.StatusCreated)
 	res.ResponseWriter.Write([]byte(shortUrl))
 }

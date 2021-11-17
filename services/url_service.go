@@ -14,6 +14,7 @@ type urlService interface {
 type urlServiceImpl struct{}
 
 var UrlService urlService = urlServiceImpl{}
+var Store = map[string]string{}
 
 func (service urlServiceImpl) ShortenUrl(url string) (string, error) {
 	shortUrl, err := generateShortLink(url)
@@ -24,6 +25,9 @@ func (service urlServiceImpl) ShortenUrl(url string) (string, error) {
 }
 
 func (service urlServiceImpl) FetchShortenUrl(url string) string {
+	if shortUrl, ok := Store[url]; ok {
+		return shortUrl
+	}
 	return ""
 }
 
@@ -34,7 +38,7 @@ func generateShortLink(url string) (string, error) {
 	}
 	s := randString(10)
 
-	return "short://" + s + "-" + uuid[:15], nil
+	return "short://" + s + "-" + uuid[:20], nil
 }
 
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
