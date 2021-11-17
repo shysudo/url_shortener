@@ -1,6 +1,7 @@
-package service
+package services
 
 import (
+	"errors"
 	"math/rand"
 
 	"github.com/hashicorp/go-uuid"
@@ -32,6 +33,9 @@ func (service urlServiceImpl) FetchShortenUrl(url string) string {
 }
 
 func generateShortLink(url string) (string, error) {
+	if url == "" {
+		return "", errors.New("url should not be an empty")
+	}
 	uuid, err := uuid.GenerateUUID()
 	if err != nil {
 		return "", err

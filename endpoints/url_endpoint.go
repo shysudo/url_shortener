@@ -16,8 +16,6 @@ type urlResourceImpl struct{}
 
 var UrlResource urlResource = urlResourceImpl{}
 
-// var urls []models.UrlPayload
-
 func (resource urlResourceImpl) ShortenUrl(req *restful.Request, res *restful.Response) {
 	payload := models.UrlPayload{}
 	err := req.ReadEntity(&payload)
