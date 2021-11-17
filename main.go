@@ -2,13 +2,18 @@ package main
 
 import (
 	"log"
+	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/emicklei/go-restful/v3"
 	"github.com/shysudo/url_shortner/endpoints"
 	"github.com/shysudo/url_shortner/models"
 )
 
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
 func main() {
 	restful.DefaultContainer.Add(webService())
 	log.Println("Service is running at http://localhost:8080")

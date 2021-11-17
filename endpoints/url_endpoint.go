@@ -6,6 +6,7 @@ import (
 
 	"github.com/emicklei/go-restful/v3"
 	"github.com/shysudo/url_shortner/models"
+	service "github.com/shysudo/url_shortner/services"
 )
 
 type urlResource interface {
@@ -16,6 +17,9 @@ type urlResourceImpl struct{}
 
 var UrlResource urlResource = urlResourceImpl{}
 
+// var urls []models.UrlPayload
+var store = map[string]string{}
+
 func (resource urlResourceImpl) ShortenUrl(req *restful.Request, res *restful.Response) {
 	payload := models.UrlPayload{}
 	err := req.ReadEntity(&payload)
@@ -23,5 +27,13 @@ func (resource urlResourceImpl) ShortenUrl(req *restful.Request, res *restful.Re
 		res.WriteError(http.StatusInternalServerError, err)
 		return
 	}
-	fmt.Println(payload)
+	shortUrl, err := service.UrlService.ShortenUrl(payload.Url)
+	if err != nil {
+		res.WriteError(http.StatusInternalServerError, err)
+		return
+	}
+	store[payload.Url] = shortUrl
+	fmt.Println(store)
+	res.ResponseWriter.WriteHeader(http.StatusCreated)
+	res.ResponseWriter.Write([]byte(shortUrl))
 }
