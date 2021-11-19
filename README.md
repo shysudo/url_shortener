@@ -5,7 +5,9 @@
 ## Build Application
   
   go build main.go -o url_short 
+  
   or 
+  
   go build
   
 ## Run test
@@ -15,7 +17,9 @@
 ## Run Application
   
   go run ./main.go
+  
   or
+  
   ./url_short
  
  ## REST API
