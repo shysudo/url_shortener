@@ -1,6 +1,6 @@
 # url_shortener
 
-  This is a bare-bones example of "url_shortener" application providing a REST API's to shortening the url's.
+  This is a bare-bones example of "url_shortener" application providing a REST API's to shortening the url.
 
 ## Build Application
   
